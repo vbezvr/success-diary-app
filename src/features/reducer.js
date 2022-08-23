@@ -1,12 +1,16 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import {CHANGE_STATUS, tabMode, CHANGE_TAB} from "./actions"
+import {CHANGE_STATUS, tabMode, CHANGE_TAB, SET_USER_CONFIG,} from "./actions"
 
 const {MAIN} = tabMode;
 
-function isAuth(state = false, action) {
+function userConfig(state = {}, action) {
     switch(action.type) {
-        case CHANGE_STATUS:
-            return !state;
+        case SET_USER_CONFIG:
+            return {
+                userName: action.displayName,
+                photoUrl: action.photoURL,
+                uid: action.uid
+            }
     }
     return state;
 }
@@ -19,6 +23,6 @@ function currentTab(state = MAIN, action) {
     return state;
 }
 
-const diaryApp = combineReducers({isAuth, currentTab});
+const diaryApp = combineReducers({userConfig, currentTab});
 
 export default diaryApp; 

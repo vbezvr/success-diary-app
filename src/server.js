@@ -1,17 +1,23 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-export {app, db};
+import { getDatabase, set, ref, onValue } from "firebase/database";
+import {getAuth} from "firebase/auth";
+import { store } from "./app/store";
+import {db} from "./index"
+import { setUserConfig } from "./features/actions";
+export {writeNewUser};
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCgOsSAPRy_8T27r7QQaaRrrLImUkXcAI8",
-  authDomain: "success-book.firebaseapp.com",
-  projectId: "success-book",
-  storageBucket: "success-book.appspot.com",
-  messagingSenderId: "803229899518",
-  appId: "1:803229899518:web:a267ef56296b36b35063af",
-  databaseURL: "https://success-book-default-rtdb.firebaseio.com/",
-};
+function writeNewUser({displayName, photoURL, uid}) {
+ set(ref(db, "users/" + uid), {
+   displayName,
+   photoURL
+ });
 
+ store.dispatch(setUserConfig({displayName, photoURL}))
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+//  const starCountRef = ref(db);
+//  onValue(starCountRef, (snapshot) => {
+//    const data = snapshot.val();
+//    console.log(data);
+//  });
+
+}
