@@ -3,8 +3,9 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { context } from "..";
 import { useSelector } from "react-redux";
-import { ref, set } from "firebase/database";
-export function AddTaskCard() {
+import { push, ref, set } from "firebase/database";
+
+function AddTaskCard() {
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
   const [category, setCategory] = useState("sport");
@@ -13,12 +14,14 @@ export function AddTaskCard() {
 
   function handleSubmit(e) {
     const data = format(new Date(), "yy-MM-dd");
+    const taskDayRef = ref(db, `users/${uid}/${data}`)
+    const addTaskRef = push(taskDayRef)
     const taskItem = {
       title,
       value, 
       category
     }
-    set(ref(db, "users/" + uid+ "/" + data + "/" + "01"), taskItem);
+    set(addTaskRef, taskItem);
 
     e.preventDefault();
   }
@@ -68,3 +71,5 @@ export function AddTaskCard() {
     </div>
   );
 }
+
+export {AddTaskCard}

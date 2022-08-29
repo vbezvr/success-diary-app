@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, set, ref, onValue } from "firebase/database";
+import { getDatabase, set, ref, onValue, onChildAdded } from "firebase/database";
 import {getAuth} from "firebase/auth";
 import { store } from "./app/store";
 import {db} from "./index"
@@ -12,12 +12,8 @@ function writeNewUser({displayName, photoURL, uid}) {
    photoURL
  });
 
- store.dispatch(setUserConfig({displayName, photoURL}))
+store.dispatch(setUserConfig({displayName, photoURL}))
 
-//  const starCountRef = ref(db);
-//  onValue(starCountRef, (snapshot) => {
-//    const data = snapshot.val();
-//    console.log(data);
-//  });
+
 
 }
