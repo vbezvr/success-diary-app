@@ -2,9 +2,6 @@ import { format, set } from "date-fns";
 import {
   child,
   onChildAdded,
-  onChildChanged,
-  onChildRemoved,
-  onValue,
   ref,
   remove,
 } from "firebase/database";
@@ -55,22 +52,8 @@ function CompletedCard() {
       }
     });
 
-    const removeListener = onChildRemoved(taskRef, (snap) => {
-      const key = snap.key;
-      const itemIndex = items.findIndex((elem) => elem.key === key);
-      if (itemIndex) {
-        setItems((prevState) => {
-          prevState.splice(itemIndex, 1);
-          console.log(prevState)
-          return [prevState];
-        });
-        // console.log(items)
-      }
-    });
-
     return () => {
       addedListener();
-      removeListener();
     };
   });
 
@@ -85,6 +68,7 @@ function CompletedCard() {
   function handleDeleteTask(key) {
     const itemRef = ref(db, `users/${uid}/${data}/${key}`);
     remove(itemRef);
+    setItems([])
   }
 
   return (

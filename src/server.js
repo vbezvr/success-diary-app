@@ -14,6 +14,9 @@ function writeNewUser({displayName, photoURL, uid}) {
 
 store.dispatch(setUserConfig({displayName, photoURL}))
 
-
+set(ref(db, "habits/" + uid), {})
+set(ref(db, "category/" + uid), {})
 
 }
+
+

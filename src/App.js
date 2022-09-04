@@ -10,6 +10,7 @@ import { setUserConfig } from './features/actions';
 import { context } from '.';
 import { Loader } from './components/Loader';
 import {Main} from "./components/Main"
+import { listenHabitsValue } from './server';
 
 function MainPage() {
   return (
@@ -24,6 +25,10 @@ function App() {
   const {auth} = useContext(context)
   const [user, loading] = useAuthState(auth);
   const dispatch = useDispatch()
+
+  // useEffect(() => {
+  //   signOut(auth)
+  // })
 
   if (loading) {
     return <Loader/>
