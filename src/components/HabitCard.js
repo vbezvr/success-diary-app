@@ -1,17 +1,40 @@
 import { eachDayOfInterval, format, subDays } from "date-fns";
-import { onValue, ref, set } from "firebase/database";
+import { get, onValue, ref, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { context } from "..";
 import { toCapitalize } from "../helper";
 import plus from "../img/plus.svg";
 
-function DayItem({data}) {
+function DayItem({data, isCurrent, habitName}) {
+  const { db } = useContext(context);
+  const { uid } = useSelector((state) => state.userConfig);
+  const habitsRef = ref(db, `habits/${uid}/${habitName}`);
+
+  const formatData = format(data, "y-MM-dd");
   const day = format(data, "d");
   const weekDay = format(data, "EEE");
-  console.log(weekDay)
+  let isActive = false;
+  
+  function handleClick() {
+    if (isCurrent) {
+      get(habitsRef).then((snap) => {
+        if (snap.exists()) {
+          const datesList = snap.val().active;
+          console.log(datesList);
+          // if (datesList.in)
+        }
+      })
+      set(habitsRef, {active: [formatData]})
+    }
+  }
+
+  function getClassName() {
+    return isCurrent ? "item current" : "item";
+  }
+
   return (
-    <div className="item">
+    <div className={getClassName()} onClick={handleClick}>
       <p className="days">{weekDay}</p>
       <p className="number">{day}</p>
       <hr></hr>
@@ -21,7 +44,7 @@ function DayItem({data}) {
 
 function HabitItem({data, days}) {
   const habitName = toCapitalize(data.name)
-  const daysItem = days.map((day, index) => <DayItem key={index} data={day} />)
+  const daysItem = days.map((day, index) => <DayItem key={index} data={day} isCurrent={index === 6} habitName={data.name}/>)
   return (<div className="habit-item">
     <span>{habitName}</span>
     <div className="items-wrapper">
@@ -61,7 +84,7 @@ function HabitCard() {
     );
   }
   );
-  // console.log(daysOfWeek)
+
   function createHabitsItems() {
     return habits.map((elem, index) => (
       <HabitItem data={elem} key={index} days={daysOfWeek} />
