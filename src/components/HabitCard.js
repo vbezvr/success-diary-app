@@ -6,7 +6,8 @@ import { context } from "..";
 import { toCapitalize } from "../helper";
 import plus from "../img/plus.svg";
 
-function DayItem({data, isCurrent, habitName}) {
+function DayItem({ data, isCurrent, habitName }) {
+  const [isActive, setActive] = useState(false);
   const { db } = useContext(context);
   const { uid } = useSelector((state) => state.userConfig);
   const habitsRef = ref(db, `habits/${uid}/${habitName}`);
@@ -14,43 +15,67 @@ function DayItem({data, isCurrent, habitName}) {
   const formatData = format(data, "y-MM-dd");
   const day = format(data, "d");
   const weekDay = format(data, "EEE");
-  let isActive = false;
-  
+
+  useEffect(() => {
+    getActiveDates().then((activeDates) => {
+      const isCurrentDataActive = activeDates.includes(formatData);
+      if (isCurrentDataActive !== isActive) {
+        setActive(isCurrentDataActive);
+      }
+    });
+  });
+
+  function getActiveDates() {
+    return get(habitsRef).then((snap) => {
+      if (snap.exists()) {
+        return snap.val().active;
+      }
+    });
+  }
+
   function handleClick() {
     if (isCurrent) {
-      get(habitsRef).then((snap) => {
-        if (snap.exists()) {
-          const datesList = snap.val().active;
-          console.log(datesList);
-          // if (datesList.in)
+      getActiveDates().then((activeDates) => {
+        if (isActive) {
+          const index = activeDates.indexOf(formatData);
+          activeDates.splice(index, 1);
+          set(habitsRef, { active: activeDates });
+          setActive(false);
+        } else {
+          activeDates.push(formatData);
+          set(habitsRef, { active: activeDates });
+          setActive(true);
         }
-      })
-      set(habitsRef, {active: [formatData]})
+      });
+      
     }
   }
 
-  function getClassName() {
-    return isCurrent ? "item current" : "item";
-  }
-
   return (
-    <div className={getClassName()} onClick={handleClick}>
+    <div className={isCurrent ? "item current" : "item"} onClick={handleClick}>
       <p className="days">{weekDay}</p>
       <p className="number">{day}</p>
-      <hr></hr>
+      <hr className={isActive ? "active" : ""}></hr>
     </div>
   );
 }
 
-function HabitItem({data, days}) {
-  const habitName = toCapitalize(data.name)
-  const daysItem = days.map((day, index) => <DayItem key={index} data={day} isCurrent={index === 6} habitName={data.name}/>)
-  return (<div className="habit-item">
-    <span>{habitName}</span>
-    <div className="items-wrapper">
-      {daysItem}
+function HabitItem({ data, days }) {
+  const habitName = toCapitalize(data.name);
+  const daysItem = days.map((day, index) => (
+    <DayItem
+      key={index}
+      data={day}
+      isCurrent={index === 6}
+      habitName={data.name}
+    />
+  ));
+  return (
+    <div className="habit-item">
+      <span>{habitName}</span>
+      <div className="items-wrapper">{daysItem}</div>
     </div>
-  </div>)
+  );
 }
 
 function HabitCard() {
@@ -82,8 +107,7 @@ function HabitCard() {
       },
       { onlyOnce: true }
     );
-  }
-  );
+  });
 
   function createHabitsItems() {
     return habits.map((elem, index) => (
@@ -103,9 +127,7 @@ function HabitCard() {
             </div>
           </div>
         </div>
-        <div className="habits-form">
-          {createHabitsItems()}
-        </div>
+        <div className="habits-form">{createHabitsItems()}</div>
       </div>
     </div>
   );
