@@ -94,15 +94,18 @@ function HabitCard() {
     onValue(
       habitsRef,
       (snap) => {
-        const snapSize = Object.values(snap.val()).length;
-        if (habits.length !== snapSize) {
-          setHabits([]);
-          snap.forEach((habitData) => {
-            setHabits((prevState) => [
-              ...prevState,
-              { name: habitData.key, dates: habitData.val() },
-            ]);
-          });
+        if (snap.exists()) {
+          const snapSize = Object.values(snap.val()).length;
+          if (habits.length !== snapSize) {
+            setHabits([]);
+            snap.forEach((habitData) => {
+              setHabits((prevState) => [
+                ...prevState,
+                { name: habitData.key, dates: habitData.val() },
+              ]);
+            });
+          }
+
         }
       },
       { onlyOnce: true }
