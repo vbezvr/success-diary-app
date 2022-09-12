@@ -104,6 +104,7 @@ p {
 }
 
 .habits-form {
+  overflow: auto;
   margin-top: 16px;
 }
 
