@@ -1,4 +1,4 @@
-import {HabitSetting} from "./HabitSetting"
+import {HabitCard} from "./SettingCard"
 import {AddTaskCard} from "../AddTaskCard"
 
 function DetailsPage() {
@@ -6,8 +6,8 @@ function DetailsPage() {
       <div className="content-wrapper">
         <AddTaskCard />
         <div className="wrapper-left">
-          <HabitSetting />
-          {/* <CategorySetting /> */}
+          <HabitCard title="Your habits"/>
+          <CategoryCard title="Your categories"/>
         </div>
       </div>
     );

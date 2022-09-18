@@ -1,34 +1,37 @@
-import { get, onValue, ref, set } from "firebase/database";
+import { ref, remove, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { context } from "../..";
 import { toCapitalize } from "../../helper";
 import { useHabitsData } from "../../hooks/habitsData";
+import { useForceUpdate } from "../../hooks/useForceUpdate";
+import remove_icon from "../../img/close.svg";
 
 
-function HabitItem({ name }) {
+function HabitItem({ name, handleDeleteField }) {
   const habitName = toCapitalize(name);
   return (
     <div className="view-item-wrapper habits-view">
       <div className="view-item">
         <div className="title title-habit">{habitName}</div>
-        <div className="img-delete">
-          <img width="25px" src="./img/close.svg" />
+        <div className="img-delete" onClick={() => handleDeleteField(name)}>
+          <img width="25px" src={remove_icon} />
         </div>
       </div>
     </div>
   );
 }
 
-function HabitSetting() {
+function HabitCard({title}) {
   const { db } = useContext(context);
   const { uid } = useSelector((state) => state.userConfig);
   const habitRef = ref(db, `habits/${uid}`);
   const currentHabits = useHabitsData(habitRef);
+  const forceUpdate = useForceUpdate();
   const [value, setValue] = useState("");
 
   const habitsItems = currentHabits.map((habit, index) => (
-    <HabitItem name={habit.name} key={index} />
+    <HabitItem name={habit.name} key={index} handleDeleteField={handleDeleteField}/>
   ));
 
   function handleSubmit(event) {
@@ -38,11 +41,17 @@ function HabitSetting() {
     setValue("");
   }
 
+  function handleDeleteField(name) {
+    const fieldRemoveRef = ref(db, `habits/${uid}/${name}`);
+    remove(fieldRemoveRef);
+    forceUpdate();
+  }
+
   return (
     <div className="card">
       <div className="habits">
         <div className="header-card">
-          <h2>Your habits</h2>
+          <h2>{title}</h2>
         </div>
         <div className="habits-form">
           <div className="habits-items-wrapper">{habitsItems}</div>
@@ -62,4 +71,4 @@ function HabitSetting() {
   );
 }
 
-export { HabitSetting };
+export { HabitCard };
