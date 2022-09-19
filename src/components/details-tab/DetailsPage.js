@@ -1,5 +1,6 @@
-import {HabitCard} from "./SettingCard"
+import {HabitCard} from "./HabitCard"
 import {AddTaskCard} from "../AddTaskCard"
+import {CategoryCard} from "./CategoryCard"
 
 function DetailsPage() {
     return (

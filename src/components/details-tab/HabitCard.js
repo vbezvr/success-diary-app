@@ -8,7 +8,7 @@ import { useForceUpdate } from "../../hooks/useForceUpdate";
 import remove_icon from "../../img/close.svg";
 
 
-function HabitItem({ name, handleDeleteField }) {
+function ViewItem({ name, handleDeleteField }) {
   const habitName = toCapitalize(name);
   return (
     <div className="view-item-wrapper habits-view">
@@ -31,7 +31,7 @@ function HabitCard({title}) {
   const [value, setValue] = useState("");
 
   const habitsItems = currentHabits.map((habit, index) => (
-    <HabitItem name={habit.name} key={index} handleDeleteField={handleDeleteField}/>
+    <ViewItem name={habit.name} key={index} handleDeleteField={handleDeleteField}/>
   ));
 
   function handleSubmit(event) {
@@ -71,4 +71,4 @@ function HabitCard({title}) {
   );
 }
 
-export { HabitCard };
+export { HabitCard, ViewItem };
