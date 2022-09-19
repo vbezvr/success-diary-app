@@ -2,25 +2,10 @@ import { ref, remove, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { context } from "../..";
-import { toCapitalize } from "../../helper";
 import { useHabitsData } from "../../hooks/habitsData";
 import { useForceUpdate } from "../../hooks/useForceUpdate";
-import remove_icon from "../../img/close.svg";
+import {ViewItem} from "./ViewItem"
 
-
-function ViewItem({ name, handleDeleteField }) {
-  const habitName = toCapitalize(name);
-  return (
-    <div className="view-item-wrapper habits-view">
-      <div className="view-item">
-        <div className="title title-habit">{habitName}</div>
-        <div className="img-delete" onClick={() => handleDeleteField(name)}>
-          <img width="25px" src={remove_icon} />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function HabitCard({title}) {
   const { db } = useContext(context);

@@ -7,6 +7,7 @@ import { LoginForm } from "./components/LoginForm";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth, signOut } from "firebase/auth";
 import { setUserConfig } from "./features/actions";
+import {setUserDatas} from "./server"
 import { context } from ".";
 import { Loader } from "./components/Loader";
 import { Main } from "./components/Main";
@@ -50,6 +51,7 @@ function App() {
 
   if (user) {
     dispatch(setUserConfig(user));
+    setUserDatas(user)
   }
 
   return <div className="wrapper">{user ? <Content /> : <LoginForm />}</div>;

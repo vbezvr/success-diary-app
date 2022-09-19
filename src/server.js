@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, set, ref, onValue, onChildAdded } from "firebase/database";
+import { getDatabase, set, ref, onValue, onChildAdded, get } from "firebase/database";
 import {getAuth} from "firebase/auth";
 import { store } from "./app/store";
 import {db} from "./index"
-import { setUserConfig } from "./features/actions";
+import { setUserConfig, setUserData } from "./features/actions";
 export {writeNewUser};
 
 function writeNewUser({displayName, photoURL, uid}) {
@@ -14,9 +14,21 @@ function writeNewUser({displayName, photoURL, uid}) {
 
 store.dispatch(setUserConfig({displayName, photoURL}))
 
-set(ref(db, "habits/" + uid), {})
-set(ref(db, "category/" + uid), {})
+set(ref(db, "habits/" + uid), {active: ["null"]})
+set(ref(db, "category/" + uid), {active: ["null"]})
 
 }
+
+function setUserDatas({uid}) {
+  const categoryRef = ref(db, `category/${uid}/active`);
+  get(categoryRef).then((snap) => {
+    if (snap.exists()) {
+      const data = snap.val();
+      store.dispatch(setUserData(data));
+    }
+  })
+}
+
+export {setUserDatas};
 
 

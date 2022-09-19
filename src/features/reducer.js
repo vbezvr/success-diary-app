@@ -1,5 +1,5 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import {CHANGE_STATUS, tabMode, CHANGE_TAB, SET_USER_CONFIG,} from "./actions"
+import {CHANGE_STATUS, tabMode, CHANGE_TAB, SET_USER_CONFIG, SET_USER_DATA,} from "./actions"
 
 const {MAIN} = tabMode;
 
@@ -23,6 +23,14 @@ function currentTab(state = MAIN, action) {
     return state;
 }
 
-const diaryApp = combineReducers({userConfig, currentTab});
+function userData(state={}, action) {
+    switch(action.type) {
+        case SET_USER_DATA:
+            return Object.assign({}, state, {categories:action.categories})
+    }
+    return state;
+}
+
+const diaryApp = combineReducers({userConfig, currentTab, userData});
 
 export default diaryApp; 
