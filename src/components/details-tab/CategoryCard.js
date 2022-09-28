@@ -14,7 +14,7 @@ function CategoryCard() {
   const categoryRef = ref(db, `category/${uid}/active`);
 
   const categoriesItems = categories
-    .filter((elem, index) => index !== 0)
+    .slice(1)
     .map((item, index) => (
       <ViewItem name={item} handleDeleteField={handleDeleteField} key={index} />
     ));

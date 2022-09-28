@@ -2,13 +2,14 @@ import React, { useContext } from "react";
 import { format } from "date-fns";
 import { useState } from "react";
 import { context } from "..";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { push, ref, set } from "firebase/database";
+import { setActiveCategory } from "../features/actions";
 
 function AddTaskCard() {
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
-  const [category, setCategory] = useState("sport");
+  const {activeCategory} = useSelector((state)=>state.userData);
   const {db} = useContext(context);
   const {uid} = useSelector((state)=>state.userConfig)
 
@@ -19,7 +20,7 @@ function AddTaskCard() {
     const taskItem = {
       title,
       value, 
-      category
+      activeCategory
     }
     set(addTaskRef, taskItem);
 
@@ -42,19 +43,7 @@ function AddTaskCard() {
                 />
               </label>
               <br />
-              <label>
-                Select category
-                <br />
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                >
-                  <option value="sport">Sport</option>
-                  <option value="mental health">Mental health</option>
-                  <option value="study">Study</option>
-                  <option value="health">Health</option>
-                </select>
-              </label>
+              <SelectForm />
               <br />
             </div>
             <div className="textarea">
@@ -69,6 +58,35 @@ function AddTaskCard() {
         </div>
       </div>
     </div>
+  );
+}
+
+function Option({value}) {
+  return <option value={value}>{value}</option>
+}
+
+function SelectForm() {
+  const [category, setCategory] = useState("");
+  const {categories}  = useSelector((state) => state.userData);
+  const dispatch = useDispatch();
+  console.log(categories);
+  const options = categories.slice(1).map((elem, index) => (
+    <Option key={index} value={elem} />
+  ));
+
+  function handleChange(event) {
+    setCategory(event.target.value);
+    dispatch(setActiveCategory(category))
+  }
+
+  return (
+    <label>
+      Select category
+      <br />
+      <select value={category} onChange={(event) => handleChange(event)}>
+        {options}
+      </select>
+    </label>
   );
 }
 

@@ -1,7 +1,11 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import {CHANGE_STATUS, tabMode, CHANGE_TAB, SET_USER_CONFIG, SET_USER_DATA,} from "./actions"
+import {CHANGE_STATUS, tabMode, CHANGE_TAB, SET_USER_CONFIG, SET_USER_DATA, SET_ACTIVE_CATEGORY,} from "./actions"
 
 const {MAIN} = tabMode;
+const categoryData = {
+  categories: [],
+  activeCategory: ""
+};
 
 function userConfig(state = {}, action) {
     switch(action.type) {
@@ -23,12 +27,14 @@ function currentTab(state = MAIN, action) {
     return state;
 }
 
-function userData(state={}, action) {
-    switch(action.type) {
-        case SET_USER_DATA:
-            return Object.assign({}, state, {categories:action.categories})
-    }
-    return state;
+function userData(state = categoryData, action) {
+  switch (action.type) {
+    case SET_USER_DATA:
+      return Object.assign({}, state, { categories: action.categories });
+    case SET_ACTIVE_CATEGORY:
+      return Object.assign({}, state, { activeCategory: action.category });
+  }
+  return state;
 }
 
 const diaryApp = combineReducers({userConfig, currentTab, userData});
