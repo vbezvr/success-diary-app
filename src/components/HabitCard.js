@@ -1,7 +1,7 @@
 import { eachDayOfInterval, format, subDays } from "date-fns";
 import { get, onValue, ref, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { context } from "..";
 import { toCapitalize } from "../helper";
 import { useHabitsData } from "../hooks/habitsData";
@@ -83,6 +83,7 @@ function HabitCard() {
   const { uid } = useSelector((state) => state.userConfig);
   const habitRef = ref(db, `habits/${uid}`);
   const habits = useHabitsData(habitRef);
+  
   const currentDay = format(new Date(), "yyyy-MM-dd");
   const dayWeekBefore = subDays(new Date(currentDay), 6);
   const daysOfWeek = eachDayOfInterval({

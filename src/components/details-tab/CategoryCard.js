@@ -1,7 +1,9 @@
 import { get, ref, set } from "firebase/database";
 import { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { context } from "../..";
+import { setUserData } from "../../features/actions";
+import { toCapitalize } from "../../helper";
 import { useForceUpdate } from "../../hooks/useForceUpdate";
 import { ViewItem } from "./ViewItem";
 
@@ -9,6 +11,7 @@ function CategoryCard() {
   const [value, setValue] = useState("");
   const [categories, setCategories] = useState([]);
   const forceUpdate = useForceUpdate();
+  const dispatch = useDispatch();
   const { db } = useContext(context);
   const { uid } = useSelector((state) => state.userConfig);
   const categoryRef = ref(db, `category/${uid}/active`);
@@ -26,6 +29,7 @@ function CategoryCard() {
         if (categories.length !== data.length) {
           setCategories(data);
         }
+        dispatch(setUserData(categories));
       }
     });
   });
@@ -33,8 +37,9 @@ function CategoryCard() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    if (value) {
-      set(categoryRef, [...categories, value]);
+    const valueStr = toCapitalize(value);
+    if (isValid(valueStr)) {
+      set(categoryRef, [...categories, valueStr]);
       setValue("");
     }
   }
@@ -44,6 +49,10 @@ function CategoryCard() {
     categories.splice(index, 1);
     set(categoryRef, categories);
     forceUpdate();
+  }
+
+  function isValid(str) {
+    return value && categories.indexOf(str) === -1;
   }
 
 

@@ -15,8 +15,8 @@ function AddTaskCard() {
 
   function handleSubmit(e) {
     const data = format(new Date(), "yy-MM-dd");
-    const taskDayRef = ref(db, `users/${uid}/${data}`)
-    const addTaskRef = push(taskDayRef)
+    const taskDayRef = ref(db, `users/${uid}/${data}`);
+    const addTaskRef = push(taskDayRef);
     const taskItem = {
       title,
       value, 

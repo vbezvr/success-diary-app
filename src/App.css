@@ -463,3 +463,27 @@ textarea {
   height: 100vh;
   background-color: #bfbcbc;
 }
+
+/* view task */
+
+.view-task-card {}
+
+.view-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 12px;
+}
+
+.title {
+  min-width: 100px;
+  margin-right: 12px;
+}
+
+.content {
+  /* max-width: 300px; */
+}
+
+h3 {
+  text-align: end;
+  margin: 0;
+}
