@@ -487,3 +487,10 @@ h3 {
   text-align: end;
   margin: 0;
 }
+
+.flex-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 200px;
+}
