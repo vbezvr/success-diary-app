@@ -38,6 +38,7 @@ function AddTaskCard() {
                 <br />
                 <input
                   type="text"
+                  className="text"
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Insert task name"
                 />
@@ -53,7 +54,7 @@ function AddTaskCard() {
                 <textarea onChange={(e) => setValue(e.target.value)}></textarea>
               </label>
             </div>
-            <input type="submit" value="Done" />
+            <input type="submit" className="submit" value="Done" />
           </form>
         </div>
       </div>

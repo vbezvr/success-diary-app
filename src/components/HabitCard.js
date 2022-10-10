@@ -19,9 +19,11 @@ function DayItem({ data, isCurrent, habitName }) {
 
   useEffect(() => {
     getActiveDates().then((activeDates) => {
-      const isCurrentDataActive = activeDates.includes(formatData);
-      if (isCurrentDataActive !== isActive) {
-        setActive(isCurrentDataActive);
+      if (activeDates) {
+        const isCurrentDataActive = activeDates.includes(formatData);
+        if (isCurrentDataActive !== isActive) {
+          setActive(isCurrentDataActive);
+        }
       }
     });
   });

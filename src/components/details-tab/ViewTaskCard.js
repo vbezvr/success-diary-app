@@ -39,6 +39,7 @@ function ViewTaskCard() {
   function handleClick(index) {
     setCurrentTask(index);
   }
+  
   function handleSubmit(event) {
     event.preventDefault();
   }
@@ -58,7 +59,7 @@ function ViewTaskCard() {
             </div>
           </form>
           <div className="habits-items-wrapper">{viewItems}</div>
-          <TaskDescriptions data={tasks[currentTask]} />
+          {tasks.length ? <TaskDescriptions data={tasks[currentTask]} /> : <h2>No task for that day</h2>}
         </div>
       </div>
     </div>
@@ -83,19 +84,19 @@ function TaskDescriptions({ data }) {
   return (
     <div className="view-task-card">
       <div className="view-wrapper">
-        <div className="title">
+        <div className="title-description">
           <h3>Title:</h3>
         </div>
         <div className="content">{data.title}</div>
       </div>
       <div className="view-wrapper">
-        <div className="title">
+        <div className="title-description">
           <h3>Category:</h3>
         </div>
         <div className="content">{data.activeCategory}</div>
       </div>
       <div className="view-wrapper">
-        <div className="title">
+        <div className="title-description">
           <h3>Description:</h3>
         </div>
         <div className="content">{data.value}</div>

@@ -472,6 +472,7 @@ textarea {
   display: flex;
   flex-direction: row;
   margin-bottom: 12px;
+  justify-content: flex-start;
 }
 
 .title {
@@ -479,8 +480,13 @@ textarea {
   margin-right: 12px;
 }
 
+.title-description {
+  min-width: 100px;
+  margin-right: 12px;
+}
+
 .content {
-  /* max-width: 300px; */
+  /* min-width: 300px; */
 }
 
 h3 {
