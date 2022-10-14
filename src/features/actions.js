@@ -10,41 +10,44 @@ export const tabMode = {
   STATISTIC: "STATISTIC",
 };
 
+const actionCreator = (type) => (payload) => {
+  return { type, payload };
+};
+
 export function changeStatus() {
-    return {
-        type: CHANGE_STATUS,
-    }
+  return {
+    type: CHANGE_STATUS,
+  };
 }
 
 export function changeCurrentTab(tab) {
   return {
     type: CHANGE_TAB,
-    tab
-  }
+    tab,
+  };
 }
 
-export function setUserConfig({displayName, photoURL, uid}) {
+export function setUserConfig({ displayName, photoURL, uid }) {
   return {
     type: SET_USER_CONFIG,
     displayName,
     photoURL,
-    uid
-  }
+    uid,
+  };
 }
 
 function setUserData(categories) {
   return {
     type: SET_USER_DATA,
-    categories
-  }
-
+    categories,
+  };
 }
 
 function setActiveCategory(category) {
   return {
     type: SET_ACTIVE_CATEGORY,
-    category
-  }
+    category,
+  };
 }
 
-export {setUserData, setActiveCategory}
+export { setUserData, setActiveCategory };
