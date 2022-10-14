@@ -40,9 +40,6 @@ function ViewTaskCard() {
     setCurrentTask(index);
   }
   
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
 
   return (
     <div className="card add-task">
