@@ -51,7 +51,7 @@ function App() {
 
   if (user) {
     dispatch(setUserConfig(user));
-    setUserDatas(user)
+    setUserDatas(user);
   }
 
   return <div className="wrapper">{user ? <Content /> : <LoginForm />}</div>;

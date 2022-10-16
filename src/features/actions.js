@@ -14,16 +14,13 @@ const actionCreator = (type) => (payload) => {
   return { type, payload };
 };
 
+export const changeCurrentTab = actionCreator(CHANGE_TAB);
+export const setUserData = actionCreator(SET_USER_DATA);
+export const setActiveCategory = actionCreator(SET_ACTIVE_CATEGORY);
+
 export function changeStatus() {
   return {
     type: CHANGE_STATUS,
-  };
-}
-
-export function changeCurrentTab(tab) {
-  return {
-    type: CHANGE_TAB,
-    tab,
   };
 }
 
@@ -36,18 +33,3 @@ export function setUserConfig({ displayName, photoURL, uid }) {
   };
 }
 
-function setUserData(categories) {
-  return {
-    type: SET_USER_DATA,
-    categories,
-  };
-}
-
-function setActiveCategory(category) {
-  return {
-    type: SET_ACTIVE_CATEGORY,
-    category,
-  };
-}
-
-export { setUserData, setActiveCategory };

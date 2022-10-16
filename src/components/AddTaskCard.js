@@ -23,6 +23,8 @@ function AddTaskCard() {
       activeCategory
     }
     set(addTaskRef, taskItem);
+    setTitle("");
+    setValue("");
 
     e.preventDefault();
   }
@@ -31,7 +33,7 @@ function AddTaskCard() {
       <div className="task-card">
         <h2>Add the task</h2>
         <div className="task-form">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <div className="input-wrapper">
               <label>
                 Task
@@ -39,6 +41,7 @@ function AddTaskCard() {
                 <input
                   type="text"
                   className="text"
+                  value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder="Insert task name"
                 />
@@ -51,7 +54,7 @@ function AddTaskCard() {
               <label>
                 Add description
                 <br />
-                <textarea onChange={(e) => setValue(e.target.value)}></textarea>
+                <textarea value={value} onChange={(e) => setValue(e.target.value)}></textarea>
               </label>
             </div>
             <input type="submit" className="submit" value="Done" />
@@ -76,8 +79,8 @@ function SelectForm() {
   ));
 
   function handleChange(event) {
+    dispatch(setActiveCategory(event.target.value));
     setCategory(event.target.value);
-    dispatch(setActiveCategory(category))
   }
 
   return (

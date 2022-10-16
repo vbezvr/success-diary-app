@@ -46,7 +46,7 @@ function ViewTaskCard() {
       <div className="task-card">
         <h2>Done task history</h2>
         <div className="task-form">
-          <form onSubmit={(e) => handleSubmit(e)}>
+          <form onSubmit={(e) => {e.preventDefault()}}>
             <div className="flex-wrapper">
               <ReactDatePicker
                 selected={date}

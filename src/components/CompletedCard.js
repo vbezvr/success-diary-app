@@ -13,16 +13,17 @@ import pencil from "../img/pencil.svg";
 
 function CompletedItem({
   value: {
-    value: { title, category },
+    value: { title, activeCategory },
     key,
   },
   handleDeleteTask,
 }) {
+  
   return (
     <div className="view-item-wrapper">
       <div className="view-item">
         <div className="title">{title}</div>
-        <div className="category-name">{category}</div>
+        <div className="category-name">{activeCategory}</div>
         <div className="img-edit">
           <img width="23px" src={pencil} />
         </div>

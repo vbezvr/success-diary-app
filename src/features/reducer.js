@@ -22,7 +22,7 @@ function userConfig(state = {}, action) {
 function currentTab(state = MAIN, action) {
     switch(action.type) {
         case CHANGE_TAB:
-            return action.tab;
+            return action.payload;
     }
     return state;
 }
@@ -30,9 +30,9 @@ function currentTab(state = MAIN, action) {
 function userData(state = categoryData, action) {
   switch (action.type) {
     case SET_USER_DATA:
-      return Object.assign({}, state, { categories: action.categories });
+      return Object.assign({}, state, { categories: action.payload });
     case SET_ACTIVE_CATEGORY:
-      return Object.assign({}, state, { activeCategory: action.category });
+      return Object.assign({}, state, { activeCategory: action.payload });
   }
   return state;
 }

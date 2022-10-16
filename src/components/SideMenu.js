@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { context } from "..";
 import { useState } from "react";
 import { getDatabase, ref, child, get } from "firebase/database";
+import { getAuth, signOut } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { changeCurrentTab, tabMode } from "../features/actions";
 export { SideMenu };
@@ -51,6 +52,15 @@ function SideMenu() {
         </div>
       </div>
       <NavigateButtons />
+      <LogOutButton />
     </div>
   );
+}
+
+function LogOutButton() {
+  function handleClick() {
+    const auth = getAuth();
+    signOut(auth).catch((error) => console.log(error.message))
+  }
+  return <div className="log-out" onClick={handleClick}>Log Out</div>;
 }

@@ -500,3 +500,15 @@ h3 {
   justify-content: flex-start;
   width: 200px;
 }
+
+.log-out {
+  justify-self: end;
+  margin-top: auto;
+  width: 100%;
+  padding: 16px;
+  padding-left: 32px;
+  font-size: 16px;
+  color: #53514D;
+  border-top: 1px solid #979797;
+  cursor: pointer;
+}

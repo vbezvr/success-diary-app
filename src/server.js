@@ -3,19 +3,27 @@ import { getDatabase, set, ref, onValue, onChildAdded, get } from "firebase/data
 import {getAuth} from "firebase/auth";
 import { store } from "./app/store";
 import {db} from "./index"
-import { setUserConfig, setUserData } from "./features/actions";
-export {writeNewUser};
+import { setActiveCategory, setUserConfig, setUserData } from "./features/actions";
 
 function writeNewUser({displayName, photoURL, uid}) {
- set(ref(db, "users/" + uid), {
-   displayName,
-   photoURL
- });
+  const userRef = ref(db, "users/" + uid);
+  get(userRef).then((snap) => {
+    if (snap.exists()) {
+      setUserDatas(uid);
+    } else {
+      set(ref(db, "users/" + uid), {
+        displayName,
+        photoURL,
+      });
 
-store.dispatch(setUserConfig({displayName, photoURL}))
+      store.dispatch(setUserConfig({ displayName, photoURL }));
 
-set(ref(db, "habits/" + uid), {active: ["null"]})
-set(ref(db, "category/" + uid), {active: ["null"]})
+      // set(ref(db, "habits/" + uid), { active: ["null"] });
+      set(ref(db, "category/" + uid), { active: ["null"] });
+
+    }
+  })
+ 
 
 }
 
@@ -25,10 +33,15 @@ function setUserDatas({uid}) {
     if (snap.exists()) {
       const data = snap.val();
       store.dispatch(setUserData(data));
+      if (data.length > 1) {
+        store.dispatch(setActiveCategory(data[1]));
+      }
+
     }
   })
 }
 
 export {setUserDatas};
+export { writeNewUser };
 
 
