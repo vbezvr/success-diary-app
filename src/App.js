@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import "./App.css";
-// import {db, auth} from "./server.js";
 import { SideMenu } from "./components/SideMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginForm } from "./components/LoginForm";

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { context } from "..";
 import { toCapitalize } from "../helper";
 import { useHabitsData } from "../hooks/habitsData";
-import plus from "../img/plus.svg";
 
 function DayItem({ data, isCurrent, habitName }) {
   const [isActive, setActive] = useState(false);

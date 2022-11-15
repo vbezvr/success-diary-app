@@ -44,7 +44,6 @@ function CompletedCard() {
 
   useEffect(() => {
     const addedListener = onChildAdded(taskRef, (snap) => {
-      console.log(snap.val());
       const key = snap.key;
       const taskItem = { key: snap.key, value: snap.val() };
       const isInclude = items.find((elem) => elem.key === key);
